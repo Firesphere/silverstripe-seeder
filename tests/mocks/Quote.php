@@ -13,7 +13,7 @@ class Quote extends DataObject implements TestOnly
         'Quote' => 'Text'
     ];
 
-    private static $has_many = [
+    private static $belongs_many_many = [
         'Pages' => Page::class
     ];
 
