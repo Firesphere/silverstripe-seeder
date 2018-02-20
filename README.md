@@ -1,3 +1,7 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Firesphere/silverstripe-seeder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Firesphere/silverstripe-seeder/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Firesphere/silverstripe-seeder/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Firesphere/silverstripe-seeder/build-status/master)
+[![codecov](https://codecov.io/gh/Firesphere/silverstripe-seeder/branch/master/graph/badge.svg)](https://codecov.io/gh/Firesphere/silverstripe-seeder)
+
 # SilverStripe Seeder
 
 # *WARNING*
