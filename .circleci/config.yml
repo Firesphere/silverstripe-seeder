@@ -36,7 +36,6 @@ jobs:
 
       - run: composer create-project firesphere/seeder:dev-master ~/var/www -n
       - run: composer vendor-expose auto
-      - run: vendor/bin/sake dev/build
 
       # run tests!
       - run: vendor/bin/phpunit --coverage-clover=coverage.xml -d memory_limit=512M tests/unit
