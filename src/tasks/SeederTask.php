@@ -49,6 +49,33 @@ class SeederTask extends BuildTask
     protected $fixture;
 
     /**
+     * SeederTask constructor.
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function __construct()
+    {
+        if (Director::isLive()) {
+            Debug::dump('DO NOT RUN ME ON LIVE ENVIRONMENTS');
+            exit;
+        }
+
+        $this->config = Config::inst()->get(static::class);
+
+        $this->factory = Injector::inst()->get(FixtureFactory::class);
+        $seed = $this->config['Seedfile'];
+
+        /** @var YamlFixture $fixture */
+        $this->fixture = Injector::inst()->create(YamlFixture::class, $seed);
+
+        // Log in as admin so we can publish and unpublish
+        $adminService = Injector::inst()->get(DefaultAdminService::class);
+        $admin = $adminService->findOrCreateDefaultAdmin();
+        Security::setCurrentUser($admin);
+
+
+    }
+
+    /**
      * @return string
      */
     public static function getFixtureFile()
@@ -70,24 +97,6 @@ class SeederTask extends BuildTask
      */
     public function run($request)
     {
-        if (Director::isLive()) {
-            Debug::dump('DO NOT RUN ME ON LIVE ENVIRONMENTS');
-            exit;
-        }
-        
-        $this->config = Config::inst()->get(static::class);
-
-        $this->factory = Injector::inst()->get(FixtureFactory::class);
-        $seed = $this->config['Seedfile'];
-
-        /** @var YamlFixture $fixture */
-        $this->fixture = Injector::inst()->create(YamlFixture::class, $seed);
-
-        // Log in as admin so we can publish and unpublish
-        $adminService = Injector::inst()->get(DefaultAdminService::class);
-        $admin = $adminService->findOrCreateDefaultAdmin();
-        Security::setCurrentUser($admin);
-
         switch ($request->getVar('type')) {
             case 'seed':
                 $this->seed();
