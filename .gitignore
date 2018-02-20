@@ -1,0 +1,11 @@
+/mysite
+/node_modules
+/resources
+/vendor
+/.editorconfig
+/.eslintrc
+/.htaccess
+/.platform.yml
+/.stylelintrc
+/install*
+/web.config

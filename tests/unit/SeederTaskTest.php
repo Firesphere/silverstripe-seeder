@@ -27,7 +27,7 @@ class SeederTaskTest extends SapphireTest
     public function setUp()
     {
         parent::setUp();
-        Config::modify()->update(SeederTask::class, 'Seedfile', 'seeder/tests/fixtures/seedertasktest.yml');
+        Config::modify()->update(SeederTask::class, 'Seedfile', 'tests/fixtures/seedertasktest.yml');
         $this->seeder = Injector::inst()->get(SeederTask::class);
     }
 
