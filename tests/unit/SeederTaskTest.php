@@ -15,6 +15,7 @@ use Firesphere\Seeder\Tests\Mock\Quote;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Dev\Debug;
 use SilverStripe\Dev\SapphireTest;
 
 class SeederTaskTest extends SapphireTest
@@ -44,7 +45,7 @@ class SeederTaskTest extends SapphireTest
         $this->seeder->run($request);
 
         $pages = Page::get();
-        $this->assertEquals(2, $pages);
+        $this->assertEquals(2, $pages->count());
 
         $page = $pages->filter(['Title' => 'Samuel L. Lipsum'])->first();
 
@@ -57,6 +58,12 @@ class SeederTaskTest extends SapphireTest
 
     public function testParseFixture()
     {
+        SeederTask::setFixtureFile('tests/fixtures/seedertasktest.yml');
 
+        $result = $this->seeder->parseFixture();
+
+        Debug::dump($result);
+
+        $this->assertTrue(is_array($result));
     }
 }
