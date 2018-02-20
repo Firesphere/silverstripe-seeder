@@ -5,6 +5,7 @@
 /.editorconfig
 /.eslintrc
 /.htaccess
+/.idea
 /.platform.yml
 /.stylelintrc
 /install*
