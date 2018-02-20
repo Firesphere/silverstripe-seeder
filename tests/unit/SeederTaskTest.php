@@ -49,7 +49,7 @@ class SeederTaskTest extends SapphireTest
 
         $page = $pages->filter(['Title' => 'Samuel L. Lipsum'])->first();
 
-        $this->assertEquals('Cat Lipsum', $page->Friend()->Title);
+        $this->assertEquals('Cat Lipsum', $page->Friends()->Title);
 
         $quotes = Quote::get();
 

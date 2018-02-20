@@ -16,6 +16,10 @@ class Page extends \Page implements TestOnly
         'Friend' => Page::class
     ];
 
+    private static $has_many = [
+        'Friends' => Page::class
+    ];
+
     private static $many_many = [
         'Quotes' => Quote::class
     ];
