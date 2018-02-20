@@ -24,6 +24,8 @@ class SeederTaskTest extends SapphireTest
      */
     protected $seeder;
 
+    protected $usesDatabase = true;
+
     public function setUp()
     {
         parent::setUp();
