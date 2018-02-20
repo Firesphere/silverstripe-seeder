@@ -5,7 +5,7 @@ namespace Firesphere\Seeder\Tests\Mock;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\TestOnly;
 
-class Page extends SiteTree implements TestOnly
+class Page extends \Page implements TestOnly
 {
 
     private static $db = [

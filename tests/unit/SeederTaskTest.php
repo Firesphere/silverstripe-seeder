@@ -26,6 +26,11 @@ class SeederTaskTest extends SapphireTest
 
     protected $usesDatabase = true;
 
+    protected static $extra_dataobjects = [
+        Mock\Page::class,
+        Mock\Quote::class
+    ];
+
     public function setUp()
     {
         parent::setUp();
