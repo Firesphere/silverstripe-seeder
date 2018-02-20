@@ -5,6 +5,11 @@
 	<testsuite name="Default">
 		<directory>mysite/tests</directory>
 	</testsuite>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">src/</directory>
+		</whitelist>
+	</filter>
 
 	<groups>
 		<exclude>
