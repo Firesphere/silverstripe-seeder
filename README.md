@@ -33,13 +33,13 @@ Then run the seeder
 
 `vendor/bin/sake dev/tasks/seeder type=seed flush=all`
 
-It will do a `dev/build` before actually seeding, to make sure the database is up to date.
-
 To unseed, run
 
 `vendor/bin/sake dev/tasks/seeder type=seed flush=all`
 
-This will destroy all data that is defined in your seeder yml. It will do a dev build to reinstate the standard pages.
+This will destroy all data that is defined in your seeder yml.
+
+You will need to run a database build before seeding, and after unseeding.
 
 # todo
 
