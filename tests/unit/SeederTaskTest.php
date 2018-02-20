@@ -15,7 +15,6 @@ use Firesphere\Seeder\Tests\Mock\Quote;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Dev\Debug;
 use SilverStripe\Dev\SapphireTest;
 
 class SeederTaskTest extends SapphireTest
@@ -79,20 +78,20 @@ class SeederTaskTest extends SapphireTest
                             'quote' => 'In the beginning the Universe was created. This has made a lot of people very angry and has been widely regarded as a bad move.',
                         ],
                 ],
-            Page::class =>
+            Page::class  =>
                 [
                     'page1' =>
                         [
-                            'Title' => 'Samuel L. Lipsum',
+                            'Title'   => 'Samuel L. Lipsum',
                             'Content' => '<p>Well, the way they make shows is, they make one show. That show\'s called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they\'re going to make more shows. Some pilots get picked and become television programs. Some don\'t, become nothing. She starred in one of the ones that became nothing.</p>',
-                            'Quotes' => '=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote2',
+                            'Quotes'  => '=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote2',
                         ],
                     'page2' =>
                         [
-                            'Title' => 'Cat Lipsum',
+                            'Title'   => 'Cat Lipsum',
                             'Content' => '<p>Give attitude pooping rainbow while flying in a toasted bread costume in space loved it, hated it, loved it, hated it yet has closed eyes but still sees you and stare out the window. Chase imaginary bugs throw down all the stuff in the kitchen. Stand in front of the computer screen eat half my food and ask for more hiss and stare at nothing then run suddenly away. Your pillow is now my pet bed soft kitty warm kitty little ball of furr but hiding behind the couch until lured out by a feathery toy meowzer hack, for attack dog, run away and pretend to be victim. Intently stare at the same spot cats go for world domination yet chase dog then run away jump around on couch, meow constantly until given food, and bleghbleghvomit my furball really tie the room together meow. Playing with balls of wool climb leg tuxedo cats always looking dapper. Hack up furballs thug cat prance along on top of the garden fence, annoy the neighbor\'s dog and make it bark for jump around on couch, meow constantly until given food, lick the plastic bag.</p>',
-                            'Friend' => '=>Firesphere\\Seeder\\Tests\\Mock\\Page.page1',
-                            'Quotes' => '=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote1,=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote2',
+                            'Friend'  => '=>Firesphere\\Seeder\\Tests\\Mock\\Page.page1',
+                            'Quotes'  => '=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote1,=>Firesphere\\Seeder\\Tests\\Mock\\Quote.quote2',
                         ],
                 ],
         ];
@@ -107,13 +106,11 @@ class SeederTaskTest extends SapphireTest
         $this->assertTrue(is_array($this->seeder->parseFixture()));
     }
 
-    public function testUnSeed()
+    public function testNoType()
     {
-        $request = new HTTPRequest('GET', '', ['type' => 'unseed']);
-        $this->seeder->run($request);
+        $request = new HTTPRequest('GET', '', []);
+        $result = $this->seeder->run($request);
 
-        $this->assertNull(Page::get()->filter(['Title' => 'Samuel L. Lipsum'])->first());
-
-        $this->assertEquals(0, Quote::get()->count());
+        $this->assertNull($result);
     }
 }
