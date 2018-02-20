@@ -112,7 +112,7 @@ class SeederTaskTest extends SapphireTest
         $request = new HTTPRequest('GET', '', ['type' => 'unseed']);
         $this->seeder->run($request);
 
-        $this->assertNull(Page::get(['Title' => 'Samuel L. Lipsum']));
+        $this->assertNull(Page::get(['Title' => 'Samuel L. Lipsum'])->first());
 
         $this->assertEquals(0, Quote::get()->count());
     }
