@@ -35,17 +35,20 @@ jobs:
             php -r "unlink('composer-setup.php');"
 
       - restore_cache:
-         keys:
-           - seeder-{{ checksum "composer.lock" }}
-           - seeder- # used if checksum fails
+          keys:
+            - v2-composer-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-composer-
 
       - run: composer create-project firesphere/seeder:dev-master ~/var/www -n
       - run: composer vendor-expose auto
 
+      # Save all dependencies to cache
       - save_cache:
-          key: seeder-{{ checksum "composer.lock" }}
-           paths:
+          key: v2-composer-{{ checksum "composer.lock" }}
+          paths:
             - vendor
+            - resource
 
       # run tests!
       - run: vendor/bin/phpunit --coverage-clover=coverage.xml -d memory_limit=512M tests/unit
