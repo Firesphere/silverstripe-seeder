@@ -50,12 +50,12 @@ class SeederTask extends BuildTask
     /**
      * SeederTask constructor.
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function __construct()
     {
         if (Director::isLive()) {
-            Debug::dump('DO NOT RUN ME ON LIVE ENVIRONMENTS');
-            exit;
+            throw new \Exception('DO NOT RUN ME ON LIVE ENVIRONMENTS');
         }
 
         $this->config = Config::inst()->get(static::class);
@@ -70,6 +70,7 @@ class SeederTask extends BuildTask
         $adminService = Injector::inst()->get(DefaultAdminService::class);
         $admin = $adminService->findOrCreateDefaultAdmin();
         Security::setCurrentUser($admin);
+        parent::__construct();
     }
 
     /**

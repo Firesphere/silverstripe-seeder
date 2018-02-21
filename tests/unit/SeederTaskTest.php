@@ -5,8 +5,10 @@ namespace Firesphere\Seeder\Tests;
 use Firesphere\Seeder\Tasks\SeederTask;
 use Firesphere\Seeder\Tests\Mock\Page;
 use Firesphere\Seeder\Tests\Mock\Quote;
+use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
 
@@ -29,6 +31,16 @@ class SeederTaskTest extends SapphireTest
         parent::setUp();
         Config::modify()->update(SeederTask::class, 'Seedfile', 'tests/fixtures/seedertasktest.yml');
         $this->seeder = Injector::inst()->get(SeederTask::class);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testLive()
+    {
+        Environment::setEnv('SS_ENVIRONMENT_TYPE', 'live');
+        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
+        $this->seeder->run($request);
     }
 
     public function testRun()
