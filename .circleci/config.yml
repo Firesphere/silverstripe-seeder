@@ -44,6 +44,8 @@ jobs:
 
       - save_cache:
           key: seeder-{{ checksum "composer.lock" }}
+           paths:
+            - vendor
 
       # run tests!
       - run: vendor/bin/phpunit --coverage-clover=coverage.xml -d memory_limit=512M tests/unit

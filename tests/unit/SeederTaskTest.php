@@ -109,7 +109,8 @@ class SeederTaskTest extends SapphireTest
 
     public function testGetFixture()
     {
-        $this->assertEquals('tests/fixtures/seedertasktest.yml', SeederTask::getFixtureFile());
+        // As it's static, it's null by default in this situation
+        $this->assertNull( SeederTask::getFixtureFile());
     }
 
     public function testUnseed()
