@@ -54,10 +54,6 @@ class SeederTask extends BuildTask
      */
     public function __construct()
     {
-        if (Director::isLive()) {
-            throw new \Exception('DO NOT RUN ME ON LIVE ENVIRONMENTS');
-        }
-
         $this->config = Config::inst()->get(static::class);
 
         $this->factory = Injector::inst()->get(FixtureFactory::class);
@@ -92,9 +88,14 @@ class SeederTask extends BuildTask
     /**
      * @param HTTPRequest $request
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function run($request)
     {
+        if (Director::isLive()) {
+            throw new \Exception('DO NOT RUN ME ON LIVE ENVIRONMENTS');
+        }
+
         switch ($request->getVar('type')) {
             case 'seed':
                 $this->seed();
