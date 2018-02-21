@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simon
- * Date: 20-Feb-18
- * Time: 19:20
- */
 
 namespace Firesphere\Seeder\Tests;
 
@@ -112,5 +106,21 @@ class SeederTaskTest extends SapphireTest
         $result = $this->seeder->run($request);
 
         $this->assertNull($result);
+    }
+
+    public function testGetFixture()
+    {
+        $this->assertEquals('tests/fixtures/seedertasktest.yml', SeederTask::getFixtureFile());
+    }
+
+    public function testUnseed()
+    {
+        $request = new HTTPRequest('GET', '', ['type' => 'unseed']);
+        $this->seeder->run($request);
+        
+        $this->assertEquals(0, Page::get()->count());
+
+        $this->assertEquals(0, Quote::get()->count());
+
     }
 }
