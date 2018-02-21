@@ -7,7 +7,6 @@ use SilverStripe\Dev\TestOnly;
 
 class Page extends \Page implements TestOnly
 {
-
     private static $db = [
         'ExtraContent' => 'HTMLText'
     ];

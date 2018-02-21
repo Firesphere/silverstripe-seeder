@@ -20,7 +20,6 @@ use Symfony\Component\Yaml\Parser;
 
 class SeederTask extends BuildTask
 {
-
     use Configurable;
 
     /**
@@ -71,8 +70,6 @@ class SeederTask extends BuildTask
         $adminService = Injector::inst()->get(DefaultAdminService::class);
         $admin = $adminService->findOrCreateDefaultAdmin();
         Security::setCurrentUser($admin);
-
-
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Firesphere\Seeder\Tests;
 
-
 use Firesphere\Seeder\Tasks\SeederTask;
 use Firesphere\Seeder\Tests\Mock\Page;
 use Firesphere\Seeder\Tests\Mock\Quote;
@@ -117,10 +116,9 @@ class SeederTaskTest extends SapphireTest
     {
         $request = new HTTPRequest('GET', '', ['type' => 'unseed']);
         $this->seeder->run($request);
-        
+
         $this->assertEquals(0, Page::get()->count());
 
         $this->assertEquals(0, Quote::get()->count());
-
     }
 }
