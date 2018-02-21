@@ -33,16 +33,6 @@ class SeederTaskTest extends SapphireTest
         $this->seeder = Injector::inst()->get(SeederTask::class);
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testLive()
-    {
-        Environment::setEnv('SS_ENVIRONMENT_TYPE', 'live');
-        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
-        $this->seeder->run($request);
-    }
-
     public function testRun()
     {
         $request = new HTTPRequest('GET', '', ['type' => 'seed']);
@@ -111,6 +101,9 @@ class SeederTaskTest extends SapphireTest
         $this->assertTrue(is_array($this->seeder->parseFixture()));
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testNoType()
     {
         $request = new HTTPRequest('GET', '', []);

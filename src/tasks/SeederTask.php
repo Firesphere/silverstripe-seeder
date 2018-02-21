@@ -104,7 +104,7 @@ class SeederTask extends BuildTask
                 $this->unSeed();
                 break;
             default:
-                Debug::dump('Please tell me what to do? `type=seed` or `type=unseed`');
+                throw new \Exception('Please tell me what to do? `type=seed` or `type=unseed`');
         }
     }
 
