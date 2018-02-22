@@ -116,7 +116,7 @@ class SeederTaskTest extends SapphireTest
         $this->seeder->run($request);
 
 
-        $this->assertContainsn('Please tell me what to do', ob_get_contents());
+        $this->assertContains('Please tell me what to do', ob_get_contents());
         ob_end_clean();
     }
 
