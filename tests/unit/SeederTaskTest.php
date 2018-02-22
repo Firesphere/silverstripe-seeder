@@ -112,9 +112,12 @@ class SeederTaskTest extends SapphireTest
     public function testNoType()
     {
         $request = new HTTPRequest('GET', '', []);
-        $result = file_get_contents($this->seeder->run($request));
+        ob_start();
+        $this->seeder->run($request);
 
-        $this->assertContainsn('Please tell me what to do', $result);
+
+        $this->assertContainsn('Please tell me what to do', ob_get_contents());
+        ob_end_clean();
     }
 
     public function testGetFixture()
