@@ -96,7 +96,8 @@ class SeederTask extends BuildTask
     public function run($request)
     {
         if (Director::isLive()) {
-            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);exit;
+            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);
+            exit;
         }
 
         switch ($request->getVar('type')) {
@@ -204,11 +205,9 @@ class SeederTask extends BuildTask
     {
         $parser = new Parser();
         $fixtureContent = [];
-        if ($this->fixture->getFixtureString() !== null) {
-            if (file_exists($this->fixture->getFixtureFile())) {
-                $contents = file_get_contents($this->fixture->getFixtureFile());
-                $fixtureContent = $parser->parse($contents);
-            }
+        if (file_exists($this->fixture->getFixtureFile())) {
+            $contents = file_get_contents($this->fixture->getFixtureFile());
+            $fixtureContent = $parser->parse($contents);
         }
 
         return $fixtureContent;
