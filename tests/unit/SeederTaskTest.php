@@ -109,9 +109,6 @@ class SeederTaskTest extends SapphireTest
         $this->assertTrue(is_array($this->seeder->parseFixture()));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testNoType()
     {
         $request = new HTTPRequest('GET', '', []);
