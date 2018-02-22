@@ -104,7 +104,7 @@ class SeederTask extends BuildTask
                     $this->unSeed();
                     break;
                 default:
-                    Debug::message('Please tell me what to do? `type=seed` or `type=unseed`');
+                    Debug::message('Please tell me what to do? `type=seed` or `type=unseed`', false);
             }
         } else {
             Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);

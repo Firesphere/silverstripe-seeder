@@ -48,9 +48,9 @@ class SeederTaskTest extends SapphireTest
         /** @var Kernel $kernel */
         $kernel = Injector::inst()->get(Kernel::class);
         $kernel->setEnvironment(Kernel::LIVE);
+        $request = new HTTPRequest('GET', '', []);
         ob_start();
 
-        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
         $this->seeder->run($request);
 
         $this->assertContains('DO NOT RUN ME ON LIVE', ob_get_contents());
