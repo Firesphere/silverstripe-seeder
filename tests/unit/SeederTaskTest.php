@@ -139,4 +139,18 @@ class SeederTaskTest extends SapphireTest
             $this->assertEquals(0, (int)$page->Quotes()->count());
         }
     }
+
+    public function testUnpublishEach()
+    {
+        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
+        $this->seeder->run($request);
+
+        $this->seeder->unpublishEach(Page::class);
+
+        $pages = Page::get();
+
+        foreach ($pages as $page) {
+            $this->assertFalse($page->isPublished());
+        }
+    }
 }
