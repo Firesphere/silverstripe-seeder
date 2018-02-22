@@ -44,12 +44,13 @@ class SeederTaskTest extends SapphireTest
 
     public function testLive()
     {
+        Dir
         $file = Director::baseFolder() . '/.env';
         file_put_contents($file,
             str_replace('dev', 'live', file_get_contents($file)));
         ob_start();
 
-        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
+        $request = new HTTPRequest('GET', '', ['type' => '']);
         $this->seeder->run($request);
 
         $result = ob_get_contents();
