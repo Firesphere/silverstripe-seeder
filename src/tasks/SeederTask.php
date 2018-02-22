@@ -92,11 +92,13 @@ class SeederTask extends BuildTask
     /**
      * @param HTTPRequest $request
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return null
      */
     public function run($request)
     {
         if (Director::isLive()) {
-            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);exit;
+            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);
+            return;
         }
 
         switch ($request->getVar('type')) {
