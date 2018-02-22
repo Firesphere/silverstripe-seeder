@@ -96,7 +96,7 @@ class SeederTask extends BuildTask
     public function run($request)
     {
         if (Director::isLive()) {
-            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);
+            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);exit;
         }
 
         switch ($request->getVar('type')) {
