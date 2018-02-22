@@ -10,9 +10,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\Debug;
 use SilverStripe\Dev\FixtureFactory;
-use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\YamlFixture;
-use SilverStripe\ORM\DatabaseAdmin;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\DefaultAdminService;
@@ -135,6 +133,9 @@ class SeederTask extends BuildTask
         foreach ($fixtureContent as $class => $items) {
             /** @var DataObject $class */
             $class = Injector::inst()->get($class);
+            if ($class->manyMany()) {
+                $this->removeManyMany($class);
+            }
             if ($class->hasExtension(Versioned::class)) {
                 $this->unpublishEach($class);
             }
@@ -163,6 +164,16 @@ class SeederTask extends BuildTask
         }
     }
 
+    public function removeManyMany($class)
+    {
+        $items = $class::get();
+        Debug::dump('Removing relations');
+        foreach ($items as $obj) {
+            foreach ($obj->manyMany() as $name => $className) {
+                $obj->$name()->removeAll();
+            }
+        }
+    }
 
     /**
      * @param DataObject $class
@@ -172,9 +183,6 @@ class SeederTask extends BuildTask
         /** @var DataList|DataObject[] $items */
         $items = $class::get();
         foreach ($items as $item) {
-            if ($item->manyMany()) {
-                Debug::dump($item->manyMany());exit;
-            }
             $item->doUnpublish();
             $item->destroy();
         }

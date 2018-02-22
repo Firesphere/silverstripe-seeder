@@ -125,4 +125,18 @@ class SeederTaskTest extends SapphireTest
 
         $this->assertEquals(0, Quote::get()->count());
     }
+
+    public function testRemoveRelations()
+    {
+        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
+        $this->seeder->run($request);
+
+        $this->seeder->removeManyMany(Page::class);
+
+        $pages = Page::get();
+
+        foreach ($pages as $page) {
+            $this->assertEquals(0, (int)$page->Quotes()->count());
+        }
+    }
 }
