@@ -18,6 +18,10 @@ use SilverStripe\Security\Security;
 use SilverStripe\Versioned\Versioned;
 use Symfony\Component\Yaml\Parser;
 
+/**
+ * Class SeederTask
+ * @package Firesphere\Seeder\Tasks
+ */
 class SeederTask extends BuildTask
 {
     use Configurable;
@@ -164,6 +168,9 @@ class SeederTask extends BuildTask
         }
     }
 
+    /**
+     * @param DataObject|string $class
+     */
     public function removeManyMany($class)
     {
         $items = $class::get();
@@ -176,7 +183,7 @@ class SeederTask extends BuildTask
     }
 
     /**
-     * @param DataObject $class
+     * @param DataObject|string $class
      */
     public function unpublishEach($class)
     {

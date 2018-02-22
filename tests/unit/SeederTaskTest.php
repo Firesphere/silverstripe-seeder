@@ -10,6 +10,10 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
 
+/**
+ * Class SeederTaskTest
+ * @package Firesphere\Seeder\Tests
+ */
 class SeederTaskTest extends SapphireTest
 {
     /**
@@ -17,8 +21,14 @@ class SeederTaskTest extends SapphireTest
      */
     protected $seeder;
 
+    /**
+     * @var bool
+     */
     protected $usesDatabase = true;
 
+    /**
+     * @var array
+     */
     protected static $extra_dataobjects = [
         Mock\Page::class,
         Mock\Quote::class
