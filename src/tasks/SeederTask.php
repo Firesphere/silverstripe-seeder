@@ -95,22 +95,22 @@ class SeederTask extends BuildTask
      */
     public function run($request)
     {
-        if (Director::isLive()) {
+        if (!Director::isLive()) {
+            switch ($request->getVar('type')) {
+                case 'seed':
+                    $this->seed();
+                    break;
+                case 'unseed':
+                    $this->unSeed();
+                    break;
+                default:
+                    Debug::message('Please tell me what to do? `type=seed` or `type=unseed`');
+            }
+        } else {
             Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);
-            exit;
-        }
-
-        switch ($request->getVar('type')) {
-            case 'seed':
-                $this->seed();
-                break;
-            case 'unseed':
-                $this->unSeed();
-                break;
-            default:
-                Debug::message('Please tell me what to do? `type=seed` or `type=unseed`');
         }
     }
+
 
     /**
      * @throws \Symfony\Component\Yaml\Exception\ParseException

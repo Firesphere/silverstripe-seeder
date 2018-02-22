@@ -41,13 +41,13 @@ jobs:
             - v2-composer-
 
       - run: composer install
-      - run: composer vendor-expose auto
       - run: cp -r vendor/silverstripe/recipe-cms/mysite .
 
       # Save all dependencies to cache
       - save_cache:
           key: v2-composer-{{ checksum "composer.lock" }}
           paths:
+            - mysite
             - vendor
             - resource
 

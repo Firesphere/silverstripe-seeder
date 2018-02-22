@@ -43,6 +43,25 @@ class SeederTaskTest extends SapphireTest
         $this->seeder = Injector::inst()->get(SeederTask::class);
     }
 
+    public function testLive()
+    {
+        /** @var Kernel $kernel */
+        $kernel = Injector::inst()->get(Kernel::class);
+        $kernel->setEnvironment(Kernel::LIVE);
+        ob_start();
+
+        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
+        $this->seeder->run($request);
+
+        $result = ob_get_contents();
+
+        ob_end_clean();
+
+        $this->assertContains('DO NOT RUN ME ON LIVE', $result);
+
+        $kernel->setEnvironment(Kernel::DEV);
+    }
+
     public function testRun()
     {
         $request = new HTTPRequest('GET', '', ['type' => 'seed']);
