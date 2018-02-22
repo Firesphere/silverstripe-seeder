@@ -92,12 +92,11 @@ class SeederTask extends BuildTask
     /**
      * @param HTTPRequest $request
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Exception
      */
     public function run($request)
     {
         if (Director::isLive()) {
-            throw new \Exception('DO NOT RUN ME ON LIVE ENVIRONMENTS');
+            Debug::message('DO NOT RUN ME ON LIVE ENVIRONMENTS', false);exit;
         }
 
         switch ($request->getVar('type')) {
@@ -108,7 +107,7 @@ class SeederTask extends BuildTask
                 $this->unSeed();
                 break;
             default:
-                throw new \Exception('Please tell me what to do? `type=seed` or `type=unseed`');
+                Debug::message('Please tell me what to do? `type=seed` or `type=unseed`');
         }
     }
 
@@ -118,11 +117,11 @@ class SeederTask extends BuildTask
      */
     public function seed()
     {
-        Debug::message('Starting seed');
+        Debug::message('Starting seed', false);
         $this->fixture->writeInto($this->factory);
-        Debug::message('Publishing Versioned items');
+        Debug::message('Publishing Versioned items', false);
         $this->publishEach();
-        Debug::message('Done seeding');
+        Debug::message('Done seeding', false);
     }
 
     /**
@@ -132,7 +131,7 @@ class SeederTask extends BuildTask
      */
     public function unSeed()
     {
-        Debug::message('Starting unseed');
+        Debug::message('Starting unseed', false);
         $fixtureContent = $this->parseFixture();
         foreach ($fixtureContent as $class => $items) {
             /** @var DataObject $class */
@@ -145,7 +144,7 @@ class SeederTask extends BuildTask
             }
             $class::get()->removeAll();
         }
-        Debug::message('Done Unseeding');
+        Debug::message('Done Unseeding', false);
     }
 
     /**
@@ -154,6 +153,7 @@ class SeederTask extends BuildTask
      */
     public function publishEach()
     {
+        Debug::message('Publishing versioned items', false);
         $fixtureContent = $this->parseFixture();
         foreach ($fixtureContent as $class => $items) {
             $class = Injector::inst()->get($class);
@@ -174,7 +174,7 @@ class SeederTask extends BuildTask
     public function removeManyMany($class)
     {
         $items = $class::get();
-        Debug::dump('Removing relations');
+        Debug::message('Removing relations', false);
         foreach ($items as $obj) {
             foreach ($obj->manyMany() as $name => $className) {
                 $obj->$name()->removeAll();
@@ -187,6 +187,7 @@ class SeederTask extends BuildTask
      */
     public function unpublishEach($class)
     {
+        Debug::message('Unpublishing versioned items', false);
         /** @var DataList|DataObject[] $items */
         $items = $class::get();
         foreach ($items as $item) {
