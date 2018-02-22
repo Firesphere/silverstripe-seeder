@@ -49,6 +49,7 @@ class SeederTaskTest extends SapphireTest
         $kernel = Injector::inst()->get(Kernel::class);
         $kernel->setEnvironment(Kernel::LIVE);
         $request = new HTTPRequest('GET', '', []);
+        Debug::dump(Director::isLive());
         ob_start();
 
         $this->seeder->run($request);
