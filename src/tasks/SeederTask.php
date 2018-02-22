@@ -13,6 +13,8 @@ use SilverStripe\Dev\FixtureFactory;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\YamlFixture;
 use SilverStripe\ORM\DatabaseAdmin;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\DefaultAdminService;
 use SilverStripe\Security\Security;
 use SilverStripe\Versioned\Versioned;
@@ -109,6 +111,7 @@ class SeederTask extends BuildTask
     }
 
     /**
+     * @throws \Symfony\Component\Yaml\Exception\ParseException
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function seed()
@@ -122,6 +125,7 @@ class SeederTask extends BuildTask
 
     /**
      *
+     * @throws \Symfony\Component\Yaml\Exception\ParseException
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function unSeed()
@@ -129,13 +133,10 @@ class SeederTask extends BuildTask
         Debug::message('Starting unseed');
         $fixtureContent = $this->parseFixture();
         foreach ($fixtureContent as $class => $items) {
+            /** @var DataObject $class */
             $class = Injector::inst()->get($class);
             if ($class->hasExtension(Versioned::class)) {
-                $items = $class::get();
-                foreach ($items as $item) {
-                    $item->doUnpublish();
-                    $item->destroy();
-                }
+                $this->unpublishEach($class);
             }
             $class::get()->removeAll();
         }
@@ -143,6 +144,7 @@ class SeederTask extends BuildTask
     }
 
     /**
+     * @throws \Symfony\Component\Yaml\Exception\ParseException
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function publishEach()
@@ -151,12 +153,30 @@ class SeederTask extends BuildTask
         foreach ($fixtureContent as $class => $items) {
             $class = Injector::inst()->get($class);
             if ($class->hasExtension(Versioned::class)) {
+                /** @var DataList|DataObject[] $items */
                 $items = $class::get();
                 foreach ($items as $item) {
                     $item->publishRecursive();
                     $item->destroy();
                 }
             }
+        }
+    }
+
+
+    /**
+     * @param DataObject $class
+     */
+    public function unpublishEach($class)
+    {
+        /** @var DataList|DataObject[] $items */
+        $items = $class::get();
+        foreach ($items as $item) {
+            if ($item->manyMany()) {
+                Debug::dump($item->manyMany());exit;
+            }
+            $item->doUnpublish();
+            $item->destroy();
         }
     }
 

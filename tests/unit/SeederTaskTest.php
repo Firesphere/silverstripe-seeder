@@ -5,10 +5,8 @@ namespace Firesphere\Seeder\Tests;
 use Firesphere\Seeder\Tasks\SeederTask;
 use Firesphere\Seeder\Tests\Mock\Page;
 use Firesphere\Seeder\Tests\Mock\Quote;
-use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
 
@@ -115,7 +113,7 @@ class SeederTaskTest extends SapphireTest
     public function testGetFixture()
     {
         // As it's static, it's null by default in this situation
-        $this->assertNull( SeederTask::getFixtureFile());
+        $this->assertNull(SeederTask::getFixtureFile());
     }
 
     public function testUnseed()
