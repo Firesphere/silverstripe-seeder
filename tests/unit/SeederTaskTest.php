@@ -53,11 +53,10 @@ class SeederTaskTest extends SapphireTest
         $request = new HTTPRequest('GET', '', ['type' => 'seed']);
         $this->seeder->run($request);
 
-        $result = ob_get_contents();
+        $this->assertContains('DO NOT RUN ME ON LIVE', ob_get_contents());
 
         ob_end_clean();
 
-        $this->assertContains('DO NOT RUN ME ON LIVE', $result);
 
         $kernel->setEnvironment(Kernel::DEV);
     }
