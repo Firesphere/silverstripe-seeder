@@ -205,8 +205,6 @@ class SeederTask extends BuildTask
         $parser = new Parser();
         $fixtureContent = [];
         if ($this->fixture->getFixtureString() !== null) {
-            $fixtureContent = $parser->parse($this->fixture->getFixtureString());
-        } else {
             if (file_exists($this->fixture->getFixtureFile())) {
                 $contents = file_get_contents($this->fixture->getFixtureFile());
                 $fixtureContent = $parser->parse($contents);

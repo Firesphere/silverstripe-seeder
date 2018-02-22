@@ -44,13 +44,13 @@ class SeederTaskTest extends SapphireTest
 
     public function testLive()
     {
-        Dir
-        $file = Director::baseFolder() . '/.env';
-        file_put_contents($file,
-            str_replace('dev', 'live', file_get_contents($file)));
+        /** @var Kernel $kernel */
+        $kernel = Injector::inst()->get(Kernel::class);
+        $kernel->setEnvironment(Kernel::LIVE);
+
         ob_start();
 
-        $request = new HTTPRequest('GET', '', ['type' => '']);
+        $request = new HTTPRequest('GET', '', ['type' => 'seed']);
         $this->seeder->run($request);
 
         $result = ob_get_contents();
@@ -58,6 +58,7 @@ class SeederTaskTest extends SapphireTest
         ob_end_clean();
 
         $this->assertContains('DO NOT RUN ME ON LIVE', $result);
+        $kernel->setEnvironment(Kernel::DEV);
     }
 
     public function testRun()
