@@ -3,8 +3,6 @@
 namespace Firesphere\Seeder\Tasks;
 
 use \Page;
-use DNADesign\Elemental\Models\BaseElement;
-use DNADesign\Elemental\Models\ElementalArea;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
