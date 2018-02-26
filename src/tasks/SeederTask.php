@@ -2,6 +2,9 @@
 
 namespace Firesphere\Seeder\Tasks;
 
+use \Page;
+use DNADesign\Elemental\Models\BaseElement;
+use DNADesign\Elemental\Models\ElementalArea;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
@@ -155,15 +158,23 @@ class SeederTask extends BuildTask
     public function publishEach()
     {
         Debug::message('Publishing versioned items', false);
+        /** @var DataList|\Page[] $pages */
+        $pages = Page::get();
+        foreach ($pages as $page) {
+            $page->publishRecursive();
+        }
+
         $fixtureContent = $this->parseFixture();
-        foreach ($fixtureContent as $class => $items) {
-            $class = Injector::inst()->get($class);
-            if ($class->hasExtension(Versioned::class)) {
+        foreach ($fixtureContent as $className => $items) {
+            $class = Injector::inst()->get($className);
+            if ($class->hasExtension(Versioned::class) && !$class instanceof Page) {
                 /** @var DataList|DataObject[] $items */
-                $items = $class::get();
+                $items = Versioned::get_by_stage($className, Versioned::DRAFT);
                 foreach ($items as $item) {
-                    $item->publishRecursive();
-                    $item->destroy();
+                    if (!$item->isPublished()) {
+                        $item->publishRecursive();
+                        $item->destroy();
+                    }
                 }
             }
         }
@@ -192,8 +203,10 @@ class SeederTask extends BuildTask
         /** @var DataList|DataObject[] $items */
         $items = $class::get();
         foreach ($items as $item) {
-            $item->doUnpublish();
-            $item->destroy();
+            if ($item->isPublished()) {
+                $item->doUnpublish();
+                $item->destroy();
+            }
         }
     }
 
